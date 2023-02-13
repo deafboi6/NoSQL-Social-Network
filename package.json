@@ -1,0 +1,20 @@
+{
+  "name": "nosql-social-network",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/deafboi6/NoSQL-Social-Network.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/deafboi6/NoSQL-Social-Network/issues"
+  },
+  "homepage": "https://github.com/deafboi6/NoSQL-Social-Network#readme"
+}
