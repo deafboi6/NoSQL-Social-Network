@@ -1,6 +1,11 @@
 const { Schema, model } = require("mongoose");
 const thoughts = require("./Thought");
 
+var validateEmail = function(email) {
+    var re = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+    return re.test(email)
+};
+
 const userSchema = new Schema(
     {
         username: {
@@ -13,13 +18,10 @@ const userSchema = new Schema(
             type: String,
             required: true,
             unique: true,
-            validate: {
-                validator: () => Promise.resolve(false),
-                message: 'Email validation failed'
-            }
+            validate: [validateEmail, "please fill a valid email"]
         },
-        thoughts: [thoughts],
-        friends: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }]
+        thoughts: [{ type: Schema.Types.ObjectId, ref: "Thought" }],
+        friends: [{ type: Schema.Types.ObjectId, ref: "User" }]
     },
     {
         toJSON: {

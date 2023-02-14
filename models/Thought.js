@@ -1,10 +1,10 @@
 const { Schema, model } = require("mongoose");
+const User = require("./User");
 
 const reactionSchema = new Schema({
-    //TODO: set default value to new ObjectId
     reactionId: {
         type: Schema.Types.ObjectId,
-        // default: 
+        default: () => new Types.ObjectId()
     },
     reactionBody: {
         type: String,
@@ -19,7 +19,14 @@ const reactionSchema = new Schema({
         type: Date,
         default: Date.now,
     }
-})
+},
+{
+    toJSON: {
+        getters: true
+    },
+    id: false
+}
+);
 const thoughtSchema = new Schema(
     {
         thoughtText: {
@@ -30,11 +37,12 @@ const thoughtSchema = new Schema(
         },
         createdAt: {
             type: Date,
-            default: Date.now
+            default: Date.now,
         },
         username: {
             type: String,
-            required: true
+            required: true,
+            ref: "User"
         },
         reactions: [reactionSchema]
     },
@@ -49,11 +57,11 @@ thoughtSchema.virtual("reactionCount").get(function () {
     return this.reactions.length;
 });
 
-reactionSchema.virtual("formatDate").get(function () {
-    if (Date) {
-        return Date.toISOString().split("T")[0]
-    };
-});
+// reactionSchema.virtual("formatDate").get(function () {
+//     if (Date) {
+//         return Date.toISOString().split("T")[0]
+//     };
+// });
 
 const Thought = model("Thought", thoughtSchema);
 

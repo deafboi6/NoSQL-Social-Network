@@ -1,4 +1,6 @@
 const { User, Thought } = require("../models");
+// const User = require("../models/User");
+// const Thought = require("../models/Thought");
 
 module.exports = {
     getUsers(req, res) {
@@ -8,14 +10,13 @@ module.exports = {
     },
     getSingleUser(req, res) {
         User.findOne({ _id: req.params.userId })
-        .select("-__v")
         .then((user) => {
             if (!user) {
                 res.status(404).json({ message: "no user found with this id" });
             } else {
                 res.json(user);
             }
-        })
+        });
     },
     createUser(req, res) {
         User.create(req.body)
@@ -28,16 +29,40 @@ module.exports = {
                 if (!user) {
                     res.status(404).json({ message: "no user found with this id" });
                 } else {
-                    Thought.findOneAndUpdate(
-                        { User: req.params.userId },
-                        { $pull: { User: req.params.userId } },
-                        { new: true }
-                    );
-                }
+                    res.status(200).json({ message: "User deleted" });
+                };
             })
             .catch((err) => {
                 console.log(err);
                 res.status(500).json(err);
             });
+    },
+    addFriend(req, res) {
+        User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $push: { friends: req.params.friendId }}
+        )
+            .then((data) => {
+                if (!data) {
+                    res.status(404).json({ message: "no user found" });
+                } else {
+                    res.status(200).json({ message: "Success" });
+                }
+            })
+            .catch((err) => res.status(500).json(err));
+    },
+    deleteFriend(req, res) {
+        User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $pull: { friends: req.params.friendId }}
+        )
+        .then((data) => {
+            if (!data) {
+                res.status(404).json({ message: "no user found" });
+            } else {
+                res.status(200).json({ message: "Success" });
+            }
+        })
+        .catch((err) => res.status(500).json(err));
     }
 };

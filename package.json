@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/deafboi6/NoSQL-Social-Network/issues"
   },
-  "homepage": "https://github.com/deafboi6/NoSQL-Social-Network#readme"
+  "homepage": "https://github.com/deafboi6/NoSQL-Social-Network#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^6.9.1"
+  }
 }
